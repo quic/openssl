@@ -20,7 +20,7 @@
 # include <jitterentropy.h>
 #endif
 
-#if defined(__arm__) || defined(__arm) || defined(__aarch64__)
+#if defined(__arm__) || defined(__arm) || defined(__aarch64__) || defined(_M_ARM64EC)
 # include "arm_arch.h"
 # define CPU_INFO_STR_LEN 128
 #elif defined(__s390__) || defined(__s390x__)
@@ -46,9 +46,9 @@ static CRYPTO_ONCE init_info = CRYPTO_ONCE_STATIC_INIT;
 DEFINE_RUN_ONCE_STATIC(init_info_strings)
 {
 #if defined(OPENSSL_CPUID_OBJ)
-# if defined(__i386)   || defined(__i386__)   || defined(_M_IX86) || \
+# if (defined(__i386)   || defined(__i386__)   || defined(_M_IX86) || \
      defined(__x86_64) || defined(__x86_64__) || \
-     defined(_M_AMD64) || defined(_M_X64)
+     defined(_M_AMD64) || defined(_M_X64)) && !defined(_M_ARM64EC)
     const char *env;
 
     BIO_snprintf(ossl_cpu_info_str, sizeof(ossl_cpu_info_str),
@@ -61,7 +61,7 @@ DEFINE_RUN_ONCE_STATIC(init_info_strings)
         BIO_snprintf(ossl_cpu_info_str + strlen(ossl_cpu_info_str),
                      sizeof(ossl_cpu_info_str) - strlen(ossl_cpu_info_str),
                      " env:%s", env);
-# elif defined(__arm__) || defined(__arm) || defined(__aarch64__)
+# elif defined(__arm__) || defined(__arm) || defined(__aarch64__) || defined(_M_ARM64EC)
     const char *env;
 
     BIO_snprintf(ossl_cpu_info_str, sizeof(ossl_cpu_info_str),

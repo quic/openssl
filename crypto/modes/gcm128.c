@@ -337,7 +337,7 @@ void gcm_ghash_4bit(u64 Xi[2], const u128 Htable[16], const u8 *inp,
 # endif
 
 #if     (defined(GHASH_ASM) || defined(OPENSSL_CPUID_OBJ))
-# if    !defined(I386_ONLY) && \
+# if    !defined(I386_ONLY) && !defined(_M_ARM64EC) && \
         (defined(__i386)        || defined(__i386__)    || \
          defined(__x86_64)      || defined(__x86_64__)  || \
          defined(_M_IX86)       || defined(_M_AMD64)    || defined(_M_X64))
@@ -369,7 +369,7 @@ void gcm_gmult_4bit_x86(u64 Xi[2], const u128 Htable[16]);
 void gcm_ghash_4bit_x86(u64 Xi[2], const u128 Htable[16], const u8 *inp,
                         size_t len);
 #  endif
-# elif defined(__arm__) || defined(__arm) || defined(__aarch64__) || defined(_M_ARM64)
+# elif defined(__arm__) || defined(__arm) || defined(__aarch64__) || defined(_M_ARM64) || defined(_M_ARM64EC)
 #  include "arm_arch.h"
 #  if __ARM_MAX_ARCH__>=7
 #   define GHASH_ASM_ARM

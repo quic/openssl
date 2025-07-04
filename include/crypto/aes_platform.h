@@ -92,7 +92,7 @@ void gcm_ghash_p8(u64 Xi[2],const u128 Htable[16],const u8 *inp, size_t len);
 #   endif /* OPENSSL_SYS_AIX || OPENSSL_SYS_MACOSX */
 #  endif /* PPC */
 
-#  if (defined(__arm__) || defined(__arm) || defined(__aarch64__) || defined(_M_ARM64)) 
+#  if (defined(__arm__) || defined(__arm) || defined(__aarch64__) || defined(_M_ARM64)) || defined(_M_ARM64EC)
 #   include "arm_arch.h"
 #   if __ARM_MAX_ARCH__>=7
 #    if defined(BSAES_ASM)
@@ -108,7 +108,7 @@ void gcm_ghash_p8(u64 Xi[2],const u128 Htable[16],const u8 *inp, size_t len);
 #    define HWAES_decrypt aes_v8_decrypt
 #    define HWAES_cbc_encrypt aes_v8_cbc_encrypt
 #    define HWAES_ecb_encrypt aes_v8_ecb_encrypt
-#    if __ARM_MAX_ARCH__>=8 && (defined(__aarch64__) || defined(_M_ARM64))
+#    if __ARM_MAX_ARCH__>=8 && (defined(__aarch64__) || defined(_M_ARM64)) || defined(_M_ARM64EC)
 #     define ARMv8_HWAES_CAPABLE (OPENSSL_armcap_P & ARMV8_AES)
 #     define HWAES_xts_encrypt aes_v8_xts_encrypt
 #     define HWAES_xts_decrypt aes_v8_xts_decrypt
@@ -119,7 +119,7 @@ void gcm_ghash_p8(u64 Xi[2],const u128 Htable[16],const u8 *inp, size_t len);
 #    define AES_UNROLL12_EOR3_CAPABLE (OPENSSL_armcap_P & ARMV8_UNROLL12_EOR3)
 #    define AES_GCM_ENC_BYTES 512
 #    define AES_GCM_DEC_BYTES 512
-#    if __ARM_MAX_ARCH__>=8 && (defined(__aarch64__) || defined(_M_ARM64))
+#    if __ARM_MAX_ARCH__>=8 && (defined(__aarch64__) || defined(_M_ARM64)) || defined(_M_ARM64EC)
 #     define AES_gcm_encrypt armv8_aes_gcm_encrypt
 #     define AES_gcm_decrypt armv8_aes_gcm_decrypt
 #     define AES_GCM_ASM(gctx) (((gctx)->ctr==aes_v8_ctr32_encrypt_blocks_unroll12_eor3 || \
